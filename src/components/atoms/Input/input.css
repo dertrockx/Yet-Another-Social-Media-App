@@ -1,0 +1,18 @@
+input {
+	border: none;
+	padding: 10px 20px;
+	border-radius: 10px;
+	height: 52px;
+	width: 100%;
+	font-family: "Mulish", sans-serif;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+}
+
+.input-field {
+	width: 100%;
+	margin-top: 20px;
+	max-width: 426px;
+	position: relative;
+}
