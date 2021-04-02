@@ -4,7 +4,7 @@ import { cookie } from "../../utils/cookies";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
 
-const url = process.env.API_ROUTE;
+const url = process.env.REACT_APP_API_ROUTE;
 
 const AuthState = (props) => {
 	const initialState = {

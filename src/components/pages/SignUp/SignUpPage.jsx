@@ -1,7 +1,7 @@
 import Input from "../../atoms/Input";
 import Field from "../../atoms/Field";
 import Button from "../../atoms/Button";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./signup.css";
 
 // regex to validate email
@@ -23,6 +23,10 @@ const validatePassword = (password) => {
 	return valid;
 };
 const SignUpPage = () => {
+	useEffect(() => {
+		console.log(process.env.REACT_APP_API_ROUTE);
+	}, []);
+
 	const [messages, setMessages] = useState({
 		name: [],
 		email: "",
