@@ -1,6 +1,6 @@
-import Input from "~/components/atoms/Input";
-import Field from "~/components/atoms/Field";
-import Button from "~/components/atoms/Button";
+import Input from "../../atoms/Input";
+import Field from "../../atoms/Field";
+import Button from "../../atoms/Button";
 import React, { useState } from "react";
 import "./signup.css";
 
@@ -71,7 +71,7 @@ const SignUpPage = () => {
 	};
 	return (
 		<div className="sign-up-page">
-			<h1 className="heading">Sign Up</h1>
+			<h1>Sign Up</h1>
 			<form className="form-container" onSubmit={handleSubmit}>
 				<Field
 					className="field-2"
@@ -143,5 +143,13 @@ const SignUpPage = () => {
 		</div>
 	);
 };
+
+// const SignUpPage = () => {
+// 	return (
+// 		<Field>
+// 			<Input />
+// 		</Field>
+// 	)
+// };
 
 export default SignUpPage;

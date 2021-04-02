@@ -7,10 +7,4 @@
 	grid-template-columns: 1fr 1fr;
 }
 .message {
-	position: absolute;
-	left: -50%;
-	top: 50%;
-	transform: translate(0%, -50%);
-	text-align: left;
-	max-width: 200px;
 }
