@@ -1,7 +1,9 @@
 import Input from "../../atoms/Input";
 import Field from "../../atoms/Field";
 import Button from "../../atoms/Button";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import AuthContext from "../../../context/auth/authContext";
 import "./signup.css";
 
 // regex to validate email
@@ -23,6 +25,9 @@ const validatePassword = (password) => {
 	return valid;
 };
 const SignUpPage = () => {
+	const authContext = useContext(AuthContext);
+	const { signup } = authContext;
+
 	useEffect(() => {
 		console.log(process.env.REACT_APP_API_ROUTE);
 	}, []);
@@ -40,16 +45,18 @@ const SignUpPage = () => {
 		password: "",
 		repeatPassword: "",
 	});
+
+	// to programatically redirect to login page
+	const history = useHistory();
+
 	const handleInputChange = (e) => {
 		setFormState({
 			...formState,
 			[e.target.name]: e.target.value,
 		});
 	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		// check first if fields are all filled up
+	const handleErrors = () => {
+		let hasErrors = false;
 		const { firstName, lastName, email, password, repeatPassword } = formState;
 		const newMessages = {
 			name: [],
@@ -72,6 +79,33 @@ const SignUpPage = () => {
 			newMessages.repeatPassword = "X Password must match";
 
 		setMessages({ ...newMessages });
+		if (
+			newMessages.name.length > 0 ||
+			newMessages.email !== "" ||
+			newMessages.password !== "" ||
+			newMessages.repeatPassword !== ""
+		)
+			hasErrors = true;
+		return hasErrors;
+	};
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		// check first if fields are all filled up
+		const hasErrors = handleErrors();
+		if (!hasErrors) {
+			return;
+		}
+		const success = await signup(formState);
+		if (success) {
+			setFormState({
+				firstName: "",
+				lastName: "",
+				email: "",
+				password: "",
+				repeatPassword: "",
+			});
+			history.push("/login");
+		}
 	};
 	return (
 		<div className="sign-up-page">
@@ -147,13 +181,5 @@ const SignUpPage = () => {
 		</div>
 	);
 };
-
-// const SignUpPage = () => {
-// 	return (
-// 		<Field>
-// 			<Input />
-// 		</Field>
-// 	)
-// };
 
 export default SignUpPage;
