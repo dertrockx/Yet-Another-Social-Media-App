@@ -35,6 +35,13 @@ const AuthState = (props) => {
 			});
 			const data = await res.json();
 			const { success = false } = data;
+
+			if (res.status === 404 || res.status === 400) {
+				dispatch({
+					type: SIGNUP_ERROR,
+					payload: data,
+				});
+			}
 			if (success) {
 				dispatch({
 					type: SIGNUP_SUCCESS,
