@@ -51,6 +51,17 @@ const reducer = (state, action) => {
 				isAuthenticated: false,
 			};
 		}
+		case LOGIN_ERROR:
+		case SIGNUP_ERROR:
+			const { payload } = action;
+			toast.error(`☠️ ${payload.msg}`, {
+				position: "bottom-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				progress: undefined,
+			});
+			return state;
 		default:
 			return state;
 	}
