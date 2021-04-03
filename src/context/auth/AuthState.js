@@ -3,12 +3,18 @@ import { cookie } from "../../utils/cookies";
 
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
-
+import {
+	SIGNUP_SUCCESS,
+	SIGNUP_ERROR,
+	LOGIN_SUCCESS,
+	LOGIN_ERROR,
+	LOGOUT,
+} from "../types";
 const url = process.env.REACT_APP_API_ROUTE;
 
 const AuthState = (props) => {
 	const initialState = {
-		token: cookie.get("authToken"),
+		token: cookie.get("authToken") || "",
 		isAuthenticated: false,
 		user: null,
 		error: null,
@@ -27,7 +33,14 @@ const AuthState = (props) => {
 				headers,
 				body: JSON.stringify(formData),
 			});
-			console.log(res.json());
+			const data = await res.json();
+			const { success = false } = data;
+			if (success) {
+				dispatch({
+					type: SIGNUP_SUCCESS,
+				});
+				return success;
+			}
 		} catch (err) {
 			console.log(err);
 		}
@@ -38,16 +51,30 @@ const AuthState = (props) => {
 		};
 
 		try {
-			const res = await fetch(`${url}/users/signup`, {
+			const res = await fetch(`${url}/users/login`, {
 				method: "POST",
 				headers,
 				body: JSON.stringify(formData),
 			});
-			console.log(res.json());
+			const data = await res.json();
+			const { success = false } = data;
+			if (success) {
+				dispatch({
+					type: LOGIN_SUCCESS,
+					payload: data,
+				});
+				console.log(data);
+			}
+			return success;
 		} catch (err) {
 			console.log(err);
 		}
 	};
+
+	const logout = () =>
+		dispatch({
+			type: LOGOUT,
+		});
 
 	return (
 		<AuthContext.Provider
@@ -55,6 +82,7 @@ const AuthState = (props) => {
 				...state,
 				signup,
 				login,
+				logout,
 			}}
 		>
 			{props.children}
