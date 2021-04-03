@@ -39,6 +39,7 @@ h3 {
 	line-height: 30px;
 }
 
+a,
 p {
 	font-family: "Mulish", sans-serif;
 	font-style: normal;
@@ -104,25 +105,6 @@ p {
 
 .mg-top-20 {
 	margin-top: 20px;
-}
-
-nav.navbar {
-	display: flex;
-	padding: 30px 60px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background: #15202b;
-	color: #fff;
-}
-
-nav.navbar .right {
-	display: flex;
-	flex-direction: row;
-}
-
-nav.navbar .item:not(:last-child) {
-	margin-right: 40px;
 }
 
 .container {
