@@ -1,0 +1,33 @@
+nav.navbar {
+	display: flex;
+	width: 100vw;
+	/* padding: 30px 60px; */
+	padding: 0 60px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #15202b;
+	color: #fff;
+}
+
+nav.navbar .right {
+	display: flex;
+	flex-direction: row;
+}
+
+nav.navbar .item:not(:last-child) {
+	margin-right: 40px;
+}
+
+nav.navbar .item {
+	padding: 15px 15px;
+	transition: all 0.3s;
+	cursor: pointer;
+	color: #fff;
+	text-decoration: none;
+}
+
+nav.navbar .item.is-active,
+nav.navbar .item:hover {
+	background: #35516d;
+}
