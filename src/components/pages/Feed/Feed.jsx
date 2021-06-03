@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { PostContext } from "../../../context/post";
 import { AuthContext } from "../../../context/auth";
-
+import { useHistory } from "react-router-dom";
 import UserAvatar from "../../atoms/UserAvatar";
 import PostItem from "../../molecules/PostItem";
 import ChirpForm from "../../molecules/Chipform";
@@ -44,13 +44,17 @@ const ads = [
 const Main = () => {
 	const postContext = useContext(PostContext);
 	const authContext = useContext(AuthContext);
-
+	const history = useHistory();
 	const { getPosts, posts } = postContext;
 	const { user } = authContext;
 	useEffect(() => {
 		getPosts();
 		// eslint-disable-next-line
 	}, []);
+
+	const goToProfile = (email) => {
+		history.push(`/profile/${email}`);
+	};
 	return (
 		<Feed
 			renderLeftContent={() => (
@@ -60,6 +64,7 @@ const Main = () => {
 						{user && user.friends && user.friends.length > 0 ? (
 							user.friends.map((friend, idx) => (
 								<UserAvatar
+									onClick={() => goToProfile(friend.email)}
 									key={idx}
 									title={`${friend.firstName} ${friend.lastName}`}
 									className="mg-top-20"
@@ -80,6 +85,7 @@ const Main = () => {
 					{posts && posts.length > 0
 						? posts.map((post, index) => (
 								<PostItem
+									handleAvatarClick={() => goToProfile(post.author.email)}
 									key={index}
 									hasLine
 									title={
