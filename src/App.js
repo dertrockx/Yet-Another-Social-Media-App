@@ -8,6 +8,7 @@ import LoginPage from "./components/pages/Login";
 import PrivateRoute from "./components/specials/PrivateRoute";
 // context
 import AuthState from "./context/auth";
+import PostState from "./context/post";
 
 import "./reset.css";
 import "./App.css";
@@ -15,24 +16,26 @@ import "react-toastify/dist/ReactToastify.css";
 const App = () => {
 	return (
 		<AuthState>
-			<Router>
-				<div className="App">
-					<Navbar />
-					<Switch>
-						<Route exact path="/signup" component={SignUpPage} />
-						<Route exact path="/login" component={LoginPage} />
-						<PrivateRoute exact path="/" component={Feed} />
-					</Switch>
-					<ToastContainer
-						position="bottom-center"
-						autoClose={5000}
-						hideProgressBar={false}
-						newestOnTop={false}
-						closeOnClick
-						rtl={false}
-					/>
-				</div>
-			</Router>
+			<PostState>
+				<Router>
+					<div className="App">
+						<Navbar />
+						<Switch>
+							<Route exact path="/signup" component={SignUpPage} />
+							<Route exact path="/login" component={LoginPage} />
+							<PrivateRoute exact path="/" component={Feed} />
+						</Switch>
+						<ToastContainer
+							position="bottom-center"
+							autoClose={5000}
+							hideProgressBar={false}
+							newestOnTop={false}
+							closeOnClick
+							rtl={false}
+						/>
+					</div>
+				</Router>
+			</PostState>
 		</AuthState>
 	);
 };
