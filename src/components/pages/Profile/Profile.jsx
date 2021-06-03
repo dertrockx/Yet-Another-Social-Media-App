@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Feed } from "../../templates";
 import { useParams } from "react-router-dom";
-
+import { AuthContext } from "../../../context/auth";
 import PostItem from "../../molecules/PostItem";
 import Button from "../../atoms/Button";
 const url = process.env.REACT_APP_API_ROUTE;
 
 const Profile = () => {
+	const authContext = useContext(AuthContext);
+	const { user = null } = authContext;
 	const { email } = useParams();
 	const [loading, setLoading] = useState(true);
-	const [user, setUser] = useState(null);
+	const [profile, setProfile] = useState(null);
 
 	// console.log(email);
 	const getUser = async () => {
@@ -22,7 +24,7 @@ const Profile = () => {
 			const { users } = data;
 			const user = users[0];
 			console.log(data);
-			setUser(user);
+			setProfile(user);
 			setLoading(false);
 		} catch (err) {
 			console.log(err);
@@ -40,14 +42,19 @@ const Profile = () => {
 					return (
 						<PostItem
 							title={
-								(user && `${user.firstName} ${user.lastName}`) || "No name"
+								(profile && `${profile.firstName} ${profile.lastName}`) ||
+								"No name"
 							}
-							meta={(user && user.email) || "no email"}
-							renderContent={() => (
-								<Button className="btn btn-rounded bg-green text-white btn-block">
-									Send friend request
-								</Button>
-							)}
+							meta={(profile && profile.email) || "no email"}
+							renderContent={() => {
+								if (user && user.email !== email)
+									return (
+										<Button className="btn btn-rounded bg-green text-white btn-block">
+											Send friend request
+										</Button>
+									);
+								return null;
+							}}
 						/>
 					);
 				else return <PostItem title="No user found" />;
