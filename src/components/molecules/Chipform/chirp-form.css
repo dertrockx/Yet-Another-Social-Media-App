@@ -17,8 +17,20 @@
 
 	font-style: normal;
 	font-weight: normal;
-	font-size: 24px;
-	line-height: 30px;
+	width: 100%;
+	border: none;
+	margin-left: 10px;
+}
+
+.chirp-form textarea::placeholder {
+	color: #666e75;
+}
+
+.chirp-form textarea {
+	font-family: "Mulish", sans-serif;
+
+	font-style: normal;
+	font-weight: normal;
 	width: 100%;
 	border: none;
 	margin-left: 10px;

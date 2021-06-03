@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { PostContext } from "../../../context/post";
+import { AuthContext } from "../../../context/auth";
 
 import UserAvatar from "../../atoms/UserAvatar";
 import PostItem from "../../molecules/PostItem";
@@ -41,7 +42,10 @@ const ads = [
 
 const Feed = () => {
 	const postContext = useContext(PostContext);
+	const authContext = useContext(AuthContext);
+
 	const { getPosts, posts } = postContext;
+	const { user } = authContext;
 	useEffect(() => {
 		getPosts();
 		// eslint-disable-next-line
@@ -51,6 +55,17 @@ const Feed = () => {
 			<aside className="friends">
 				<h2>Friends List</h2>
 				<div className="mg-top-30">
+					{user && user.friends && user.friends.length > 0 ? (
+						user.friends.map((friend, idx) => (
+							<UserAvatar
+								key={idx}
+								title={`${friend.firstName} ${friend.lastName}`}
+								className="mg-top-20"
+							/>
+						))
+					) : (
+						<p>No friends {":<"} sadge </p>
+					)}
 					{/* {posts && posts.length > 0
 						? posts.map((post, index) => (
 								<UserAvatar

@@ -1,6 +1,6 @@
 .user-avatar {
 	display: flex;
-	align-items: center;
+	/* align-items: center; */
 	flex-direction: row;
 	cursor: pointer;
 	transition: all 0.3s;
@@ -11,9 +11,11 @@
 	border-radius: 50%;
 	width: 40px;
 	height: 40px;
+	/* margin-top: 20px; */
 }
 .user-avatar .info {
 	margin-left: 10px;
+	/* margin-top: 20px; */
 }
 
 .user-avatar .caption {
