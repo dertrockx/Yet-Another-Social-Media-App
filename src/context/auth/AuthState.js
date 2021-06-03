@@ -4,134 +4,134 @@ import { cookie } from "../../utils/cookies";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
 import {
-  SIGNUP_SUCCESS,
-  SIGNUP_ERROR,
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  LOGOUT,
-  LOAD_USER,
+	SIGNUP_SUCCESS,
+	SIGNUP_ERROR,
+	LOGIN_SUCCESS,
+	LOGIN_ERROR,
+	LOGOUT,
+	LOAD_USER,
 } from "../types";
 const url = process.env.REACT_APP_API_ROUTE;
 
 const AuthState = (props) => {
-  const initialState = {
-    token: cookie.get("authToken") || "",
-    isAuthenticated: false,
-    user: null,
-    error: null,
-  };
+	const initialState = {
+		token: cookie.get("authToken") || "",
+		isAuthenticated: false,
+		user: null,
+		error: null,
+	};
 
-  const [state, dispatch] = useReducer(authReducer, initialState);
+	const [state, dispatch] = useReducer(authReducer, initialState);
 
-  const signup = async (formData) => {
-    const headers = {
-      "Content-Type": "application/json",
-    };
+	const signup = async (formData) => {
+		const headers = {
+			"Content-Type": "application/json",
+		};
 
-    try {
-      const res = await fetch(`${url}/users/signup`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      const { success = false } = data;
+		try {
+			const res = await fetch(`${url}/users/signup`, {
+				method: "POST",
+				headers,
+				body: JSON.stringify(formData),
+			});
+			const data = await res.json();
+			const { success = false } = data;
 
-      if (res.status === 404 || res.status === 400) {
-        dispatch({
-          type: SIGNUP_ERROR,
-          payload: data,
-        });
-      }
-      if (success) {
-        dispatch({
-          type: SIGNUP_SUCCESS,
-        });
-        return success;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const loadUser = async () => {
-    try {
-      const res = await fetch(`${url}/users/checkAuth`, {
-        credentials: "include",
-      });
-      const data = await res.json();
-      /**
-       * data: {
-       *  isLoggedIn: boolean,
-       *  user: {
-       *    posts: Post[],
-       *    email: string,
-       *    firstName: string,
-       *    lastName: string,
-       *    friends: User[],
-       *    _id: string
-       *  }
-       * }
-       */
-      dispatch({
-        type: LOAD_USER,
-        payload: data.user,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const login = async (formData) => {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    try {
-      const res = await fetch(`${url}/users/login`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
+			if (res.status === 404 || res.status === 400) {
+				dispatch({
+					type: SIGNUP_ERROR,
+					payload: data,
+				});
+			}
+			if (success) {
+				dispatch({
+					type: SIGNUP_SUCCESS,
+				});
+				return success;
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const loadUser = async () => {
+		try {
+			const res = await fetch(`${url}/users/checkAuth`, {
+				credentials: "include",
+			});
+			const data = await res.json();
+			/**
+			 * data: {
+			 *  isLoggedIn: boolean,
+			 *  user: {
+			 *    posts: Post[],
+			 *    email: string,
+			 *    firstName: string,
+			 *    lastName: string,
+			 *    friends: User[],
+			 *    _id: string
+			 *  }
+			 * }
+			 */
+			dispatch({
+				type: LOAD_USER,
+				payload: data.user,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const login = async (formData) => {
+		const headers = {
+			"Content-Type": "application/json",
+		};
+		try {
+			const res = await fetch(`${url}/users/login`, {
+				method: "POST",
+				headers,
+				body: JSON.stringify(formData),
+			});
+			const data = await res.json();
 
-      const { success = false } = data;
+			const { success = false } = data;
 
-      if (res.status === 404 || res.status === 400) {
-        dispatch({
-          type: LOGIN_ERROR,
-          payload: data,
-        });
-      }
+			if (res.status === 404 || res.status === 400) {
+				dispatch({
+					type: LOGIN_ERROR,
+					payload: data,
+				});
+			}
 
-      if (success) {
-        dispatch({
-          type: LOGIN_SUCCESS,
-          payload: data,
-        });
-        console.log(data);
-      }
-      return success;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+			if (success) {
+				dispatch({
+					type: LOGIN_SUCCESS,
+					payload: data,
+				});
+				console.log(data);
+			}
+			return success;
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
-  const logout = () =>
-    dispatch({
-      type: LOGOUT,
-    });
+	const logout = () =>
+		dispatch({
+			type: LOGOUT,
+		});
 
-  return (
-    <AuthContext.Provider
-      value={{
-        ...state,
-        signup,
-        login,
-        logout,
-        loadUser,
-      }}
-    >
-      {props.children}
-    </AuthContext.Provider>
-  );
+	return (
+		<AuthContext.Provider
+			value={{
+				...state,
+				signup,
+				login,
+				logout,
+				loadUser,
+			}}
+		>
+			{props.children}
+		</AuthContext.Provider>
+	);
 };
 
 export default AuthState;

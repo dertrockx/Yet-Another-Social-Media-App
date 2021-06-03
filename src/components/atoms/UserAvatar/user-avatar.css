@@ -1,5 +1,6 @@
 .user-avatar {
 	display: flex;
+	align-items: center;
 	flex-direction: row;
 	cursor: pointer;
 	transition: all 0.3s;
@@ -8,8 +9,8 @@
 
 .avatar {
 	border-radius: 50%;
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 }
 .user-avatar .info {
 	margin-left: 10px;
