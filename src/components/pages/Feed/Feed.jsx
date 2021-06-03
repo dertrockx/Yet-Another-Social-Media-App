@@ -99,6 +99,7 @@ const Main = () => {
 					<h2>Promotions</h2>
 					{ads.map((ad, index) => (
 						<PostItem
+							key={index}
 							title={ad.name}
 							meta={ad.meta.toISOString()}
 							content={ad.content}

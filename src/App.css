@@ -78,6 +78,10 @@ textarea {
 	color: #00c04d;
 }
 
+.outline-green {
+	border: 1px solid #00c04d;
+}
+
 .text-red {
 	color: #ed455d;
 }

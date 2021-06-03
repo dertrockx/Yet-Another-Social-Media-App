@@ -5,6 +5,7 @@ import Navbar from "./components/molecules/Navbar";
 import Feed from "./components/pages/Feed";
 import SignUpPage from "./components/pages/SignUp";
 import LoginPage from "./components/pages/Login";
+import Profile from "./components/pages/Profile";
 import PrivateRoute from "./components/specials/PrivateRoute";
 // context
 import AuthState from "./context/auth";
@@ -23,6 +24,7 @@ const App = () => {
 						<Switch>
 							<Route exact path="/signup" component={SignUpPage} />
 							<Route exact path="/login" component={LoginPage} />
+							<PrivateRoute path="/profile/:email" component={Profile} />
 							<PrivateRoute exact path="/" component={Feed} />
 						</Switch>
 						<ToastContainer
