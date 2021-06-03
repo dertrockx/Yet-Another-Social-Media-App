@@ -35,11 +35,38 @@ const PostState = (props) => {
 			console.log(err);
 		}
 	};
+
+	const createPost = async (author_id, content) => {
+		const headers = {
+			"Content-Type": "application/json",
+		};
+		const formData = {
+			author: author_id,
+			content,
+		};
+		try {
+			const res = await fetch(`${url}/posts/create`, {
+				method: "POST",
+				headers,
+				body: JSON.stringify(formData),
+			});
+			const data = await res.json();
+			console.log("Data: ", data);
+			dispatch({
+				type: CREATE_POST,
+				payload: data.post,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<PostContext.Provider
 			value={{
 				...state,
 				getPosts,
+				createPost,
 			}}
 		>
 			{props.children}

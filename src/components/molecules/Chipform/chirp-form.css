@@ -27,6 +27,7 @@
 }
 
 .chirp-form textarea {
+	resize: none;
 	font-family: "Mulish", sans-serif;
 
 	font-style: normal;
