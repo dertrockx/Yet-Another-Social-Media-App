@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "./components/molecules/Navbar";
-import Feed from "./components/templates/Feed";
+import Feed from "./components/pages/Feed";
 import SignUpPage from "./components/pages/SignUp";
 import LoginPage from "./components/pages/Login";
 import PrivateRoute from "./components/specials/PrivateRoute";
