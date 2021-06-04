@@ -94,6 +94,29 @@ const PostState = (props) => {
 		}
 	};
 
+	const deletePost = async (id) => {
+		const headers = {
+			"Content-Type": "application/json",
+		};
+		try {
+			const res = await fetch(`${url}/posts/${id}`, {
+				method: "DELETE",
+
+				credentials: "include",
+			});
+			const data = await res.json();
+			console.log("Data: ", data);
+			if (data && data.success) {
+				dispatch({
+					type: DELETE_POST,
+					payload: data.post._id,
+				});
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<PostContext.Provider
 			value={{
@@ -101,6 +124,7 @@ const PostState = (props) => {
 				getPosts,
 				createPost,
 				editPost,
+				deletePost,
 			}}
 		>
 			{props.children}

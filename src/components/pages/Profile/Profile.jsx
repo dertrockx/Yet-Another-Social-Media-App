@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Feed } from "../../templates";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../../context/auth";
-
+import { PostContext } from "../../../context/post";
 import PostItem from "../../molecules/PostItem";
 import Button from "../../atoms/Button";
 import EditablePostItem from "../../molecules/EditablePostItem";
@@ -39,7 +39,8 @@ const getFriendshipObj = (friends, recipient) => {
 
 const Profile = () => {
 	const authContext = useContext(AuthContext);
-
+	const postContext = useContext(PostContext);
+	const { posts } = postContext;
 	const { user, sendFriendRequest, acceptFriendRequest, rejectFriendRequest } =
 		authContext;
 
@@ -183,7 +184,21 @@ const Profile = () => {
 						{profile && user && user.email === email ? (
 							<>
 								<h3 className="mg-top-30">Posts</h3>
-								{user.posts.map((post) => (
+								{posts
+									.filter((post) => post.author._id === user._id)
+									.map((post, idx) => (
+										<PostItem
+											key={idx}
+											title={
+												(profile &&
+													`${profile.firstName} ${profile.lastName}`) ||
+												"No name"
+											}
+											// content={post.content}
+											renderContent={() => <EditablePostItem post={post} />}
+										/>
+									))}
+								{/* {user.posts.map((post) => (
 									<PostItem
 										title={
 											(profile && `${profile.firstName} ${profile.lastName}`) ||
@@ -192,7 +207,7 @@ const Profile = () => {
 										// content={post.content}
 										renderContent={() => <EditablePostItem post={post} />}
 									/>
-								))}
+								))} */}
 							</>
 						) : null}
 					</>

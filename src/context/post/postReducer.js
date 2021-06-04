@@ -36,9 +36,19 @@ const reducer = (state, action) => {
 				}),
 			};
 		case DELETE_POST:
+			toast.success("Post deleted successfully!", {
+				position: "bottom-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				progress: undefined,
+			});
+			console.log(action.payload);
+			let posts = state.posts.filter((post) => post._id !== action.payload);
+			console.log(posts);
 			return {
 				...state,
-				posts: state.posts.filter((post) => post._id !== action.payload),
+				posts,
 			};
 		default:
 			return state;

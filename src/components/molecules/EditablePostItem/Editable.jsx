@@ -7,7 +7,7 @@ import Button from "../../atoms/Button";
 const Editable = ({ post }) => {
 	const [data, setData] = useState(post.content);
 	const postContext = useContext(PostContext);
-	const { editPost } = postContext;
+	const { editPost, deletePost } = postContext;
 	const [editing, setEditing] = useState(false);
 	let ref = null;
 	return (
@@ -39,7 +39,10 @@ const Editable = ({ post }) => {
 					Save
 				</Button>
 			)}
-			<Button className="btn btn-rounded bg-red text-white btn-block">
+			<Button
+				className="btn btn-rounded bg-red text-white btn-block"
+				onClick={() => deletePost(post._id)}
+			>
 				Delete
 			</Button>
 		</>
