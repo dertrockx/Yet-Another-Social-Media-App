@@ -8,7 +8,7 @@ const url = process.env.REACT_APP_API_ROUTE;
 
 const getFriendshipStatus = (friends, recipient) => {
 	const friendship = friends.filter(
-		(friendship) => friendship.recipient === recipient
+		(friendship) => friendship.recipient._id === recipient
 	)[0];
 	if (!friendship) return ["Send a friend request", "bg-green"];
 	switch (friendship.status) {
