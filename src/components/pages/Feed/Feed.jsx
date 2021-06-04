@@ -8,39 +8,6 @@ import ChirpForm from "../../molecules/Chipform";
 import Button from "../../atoms/Button";
 import { Feed } from "../../templates";
 
-const ads = [
-	{
-		name: "Benjie for President",
-		meta: new Date(),
-		content:
-			"My ingenuity is a thrill, and I want to wake up. Seeing fine dates, you understand. #happydancing #randomtweet",
-	},
-	{
-		name: "Sophia's B-day",
-		meta: new Date(),
-		content:
-			"My dad is amazing, and I want to get more sleep. Let there be grand weirdness, or something. #myism #randomtweet",
-	},
-	{
-		name: "Reamonn's Fine Art Museum",
-		meta: new Date(),
-		content:
-			"My dad is funky, and I want to go to Mars. Let there be mail order glamour, in a way. #happyfest #randomtweet",
-	},
-	{
-		name: "Joan's Awesome Store",
-		meta: new Date(),
-		content:
-			"My job is a shadow, and I want to start a business. Fabulous grand trials, in the end. #randombling #randomtweet",
-	},
-	{
-		name: "Reinalyn, Corporation",
-		meta: new Date(),
-		content:
-			"My home is over the top, and I want to wake up. Come for the perfect glitter, my friend. #jinglerun #randomtweet",
-	},
-];
-
 const Main = () => {
 	const postContext = useContext(PostContext);
 	const authContext = useContext(AuthContext);
@@ -65,11 +32,15 @@ const Main = () => {
 						{user && user.friends && user.friends.length > 0 ? (
 							user.friends.map((friendship, idx) => {
 								if (friendship.status === 2) {
+									const profile =
+										friendship.requestor._id !== user._id
+											? friendship.requestor
+											: friendship.recipient;
 									return (
 										<UserAvatar
-											onClick={() => goToProfile(friendship.requestor.email)}
+											onClick={() => goToProfile(profile.email)}
 											key={idx}
-											title={`${friendship.requestor.firstName} ${friendship.requestor.lastName}`}
+											title={`${profile.firstName} ${profile.lastName}`}
 											className="mg-top-20"
 										/>
 									);
@@ -80,9 +51,6 @@ const Main = () => {
 							<p>No friends {"asdadsa"} sadge </p>
 						)}
 					</div>
-					<Button className="mg-top-30 btn btn-large btn-rounded bg-green text-white">
-						Chirp
-					</Button>
 				</>
 			)}
 			renderMain={() => (

@@ -16,9 +16,9 @@ const getFriendshipStatus = (friends, recipient) => {
 	if (!friendship) return ["Send a friend request", "bg-green"];
 	switch (friendship.status) {
 		case 0:
-			return ["Request sent", "bg-blue"];
+			return ["Request sent", "bg-yellow"];
 		case 1:
-			return ["Pending request", "bg-yellow"];
+			return ["Accept request", "bg-blue"];
 		case 2:
 			return ["Accepted", "bg-red"];
 		default:
@@ -36,12 +36,14 @@ const getFriendshipObj = (friends, recipient) => {
 
 const Profile = () => {
 	const authContext = useContext(AuthContext);
-	const { user, sendFriendRequest, acceptFriendRequest } = authContext;
+	const { user, sendFriendRequest, acceptFriendRequest, rejectFriendRequest } =
+		authContext;
 	const { friends } = user;
 
 	const { email } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [profile, setProfile] = useState(null);
+	const [friendship, setFriendship] = useState(null);
 	const [buttonState, setButtonState] = useState({
 		text: "Send a friend request",
 		background: "bg-green",
@@ -61,12 +63,14 @@ const Profile = () => {
 			// get friendship status
 			const status = getFriendshipStatus(friends, profile._id);
 			const [text, background] = status;
-			console.log(text, background);
+			// console.log(text, background);
 
 			setButtonState({
 				text,
 				background,
 			});
+
+			setFriendship(getFriendshipObj(friends, profile._id));
 
 			setProfile(profile);
 			setLoading(false);
@@ -85,13 +89,18 @@ const Profile = () => {
 		// console.log(user.friends);
 		const status = getFriendshipStatus(friends, profile._id);
 		const [text, background] = status;
-
+		setFriendship(getFriendshipObj(friends, profile._id));
 		setButtonState({
 			text,
 			background,
 		});
 	}, [user]);
-
+	const rejectRequest = () => {
+		console.log("Rejecting...");
+		if (friendship) {
+			rejectFriendRequest(friendship._id, profile._id, user._id);
+		}
+	};
 	const handleButtonClick = () => {
 		console.log("Em?");
 
@@ -99,7 +108,7 @@ const Profile = () => {
 			console.log("Sending friend request...");
 			const success = sendFriendRequest(user._id, profile._id);
 			console.log(success);
-		} else if (buttonState.text === "Pending request") {
+		} else if (buttonState.text === "Accept request") {
 			console.log("Accepting friend request");
 			acceptFriendRequest(
 				getFriendshipObj(friends, profile._id)._id,
@@ -134,13 +143,24 @@ const Profile = () => {
 							renderContent={() => {
 								if (user && user.email !== email)
 									return (
-										<Button
-											className={`btn btn-rounded ${buttonState.background} text-white btn-block`}
-											onClick={() => handleButtonClick()}
-											// disabled={friends.includes(profile._id)}
-										>
-											{buttonState.text}
-										</Button>
+										<>
+											<Button
+												className={`btn btn-rounded ${buttonState.background} text-white btn-block`}
+												onClick={() => handleButtonClick()}
+												// disabled={friends.includes(profile._id)}
+											>
+												{buttonState.text}
+											</Button>
+											{friendship && friendship.status === 1 ? (
+												<Button
+													className={`btn btn-rounded bg-red text-white btn-block`}
+													onClick={rejectRequest}
+													// disabled={friends.includes(profile._id)}
+												>
+													Reject
+												</Button>
+											) : null}
+										</>
 									);
 								return null;
 							}}

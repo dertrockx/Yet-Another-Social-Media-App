@@ -7,6 +7,7 @@ import {
 	LOAD_USER,
 	SEND_FRIEND_REQUEST,
 	ACCEPT_FRIEND_REQUEST,
+	REJECT_FRIEND_REQUEST,
 } from "../types";
 import { toast } from "react-toastify";
 import { cookie } from "../../utils/cookies";
@@ -101,6 +102,24 @@ const reducer = (state, action) => {
 							status,
 						};
 					}),
+				},
+			};
+		case REJECT_FRIEND_REQUEST:
+			toast.success("😊 Friend request rejected", {
+				position: "bottom-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				progress: undefined,
+			});
+			console.log(action.payload);
+			return {
+				...state,
+				user: {
+					...state.user,
+					friends: state.user.friends.filter(
+						(friendship) => friendship._id !== action.payload
+					),
 				},
 			};
 		case LOAD_USER:
