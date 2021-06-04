@@ -111,7 +111,6 @@ const AuthState = (props) => {
 					type: LOGIN_SUCCESS,
 					payload: data,
 				});
-				console.log(data);
 			}
 			return success;
 		} catch (err) {
@@ -142,7 +141,6 @@ const AuthState = (props) => {
 			const data = await res.json();
 
 			if (data && data.success) {
-				console.log(data);
 				dispatch({
 					type: SEND_FRIEND_REQUEST,
 					payload: data.friendship,
@@ -172,13 +170,12 @@ const AuthState = (props) => {
 			const data = await res.json();
 
 			if (data && data.success) {
-				console.log(data);
 				dispatch({
 					type: ACCEPT_FRIEND_REQUEST,
 					payload: friendship_id,
 				});
 			}
-			// console.log(data);
+			//
 			// return data.success;
 		} catch (err) {
 			console.log(err);
@@ -203,13 +200,12 @@ const AuthState = (props) => {
 			const data = await res.json();
 
 			if (data && data.success) {
-				console.log(data);
 				dispatch({
 					type: REJECT_FRIEND_REQUEST,
 					payload: friendship_id,
 				});
 			}
-			// console.log(data);
+			//
 			// return data.success;
 		} catch (err) {
 			console.log(err);

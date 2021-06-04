@@ -1,7 +1,7 @@
 import Input from "../../atoms/Input";
 import Field from "../../atoms/Field";
 import Button from "../../atoms/Button";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../../../context/auth/authContext";
 import "./login.css";
@@ -9,10 +9,6 @@ import "./login.css";
 const LoginPage = () => {
 	const authContext = useContext(AuthContext);
 	const { login = () => {} } = authContext;
-
-	useEffect(() => {
-		console.log(process.env.REACT_APP_API_ROUTE);
-	}, []);
 
 	const [messages, setMessages] = useState({
 		email: "",
@@ -39,7 +35,7 @@ const LoginPage = () => {
 			email: "",
 			password: "",
 		};
-		console.log("Nag s-submit na siya...");
+
 		if (email === "") newMessages.email = "X Email is required";
 
 		if (password === "") newMessages.password = "X Password is required";

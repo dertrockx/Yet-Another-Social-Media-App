@@ -45,9 +45,9 @@ const reducer = (state, action) => {
 				closeOnClick: true,
 				progress: undefined,
 			});
-			console.log(action.payload);
+
 			let posts = state.posts.filter((post) => post._id !== action.payload);
-			console.log(posts);
+
 			return {
 				...state,
 				posts,

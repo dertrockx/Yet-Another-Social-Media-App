@@ -52,7 +52,7 @@ const PostState = (props) => {
 				credentials: "include",
 			});
 			const data = await res.json();
-			console.log("Data: ", data);
+
 			dispatch({
 				type: CREATE_POST,
 				payload: data.post,
@@ -82,7 +82,7 @@ const PostState = (props) => {
 				credentials: "include",
 			});
 			const data = await res.json();
-			console.log("Data: ", data);
+
 			if (data && data.success) {
 				dispatch({
 					type: UPDATE_POST,
@@ -102,7 +102,7 @@ const PostState = (props) => {
 				credentials: "include",
 			});
 			const data = await res.json();
-			console.log("Data: ", data);
+
 			if (data && data.success) {
 				dispatch({
 					type: DELETE_POST,

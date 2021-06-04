@@ -10,7 +10,6 @@ import EditablePostItem from "../../molecules/EditablePostItem";
 const url = process.env.REACT_APP_API_ROUTE;
 
 const getFriendshipStatus = (friends, recipient) => {
-	console.log(friends);
 	const friendship = friends.filter(
 		(friendship) =>
 			friendship.recipient._id === recipient ||
@@ -55,7 +54,6 @@ const Profile = () => {
 		background: "bg-green",
 	});
 
-	// console.log(email);
 	const getUser = async () => {
 		try {
 			const res = await fetch(`${url}/users?email=${email}`, {
@@ -64,7 +62,7 @@ const Profile = () => {
 			const data = await res.json();
 
 			const { users } = data;
-			console.log(users);
+
 			if (users.length === 0) {
 				setLoading(false);
 				return;
@@ -74,7 +72,6 @@ const Profile = () => {
 			// get friendship status
 			const status = getFriendshipStatus(friends, profile._id);
 			const [text, background] = status;
-			// console.log(text, background);
 
 			setButtonState({
 				text,
@@ -97,7 +94,6 @@ const Profile = () => {
 	useEffect(() => {
 		if (!profile || !user) return;
 
-		// console.log(user.friends);
 		const status = getFriendshipStatus(friends, profile._id);
 		const [text, background] = status;
 		setFriendship(getFriendshipObj(friends, profile._id));
@@ -108,36 +104,20 @@ const Profile = () => {
 		// eslint-disable-next-line
 	}, [user]);
 	const rejectRequest = () => {
-		console.log("Rejecting...");
 		if (friendship) {
 			rejectFriendRequest(friendship._id, profile._id, user._id);
 		}
 	};
 	const handleButtonClick = () => {
-		console.log("Em?");
-
 		if (buttonState.text === "Send a friend request") {
-			console.log("Sending friend request...");
-			const success = sendFriendRequest(user._id, profile._id);
-			console.log(success);
+			sendFriendRequest(user._id, profile._id);
 		} else if (buttonState.text === "Accept request") {
-			console.log("Accepting friend request");
 			acceptFriendRequest(
 				getFriendshipObj(friends, profile._id)._id,
 				profile._id,
 				user._id
 			);
 		}
-
-		// if (success) {
-		// 	const status = getFriendshipStatus(friends, profile._id);
-		// 	const [text, background] = status;
-
-		// 	setButtonState({
-		// 		text,
-		// 		background,
-		// 	});
-		// }
 	};
 
 	if (loading) return <h3>Loading...</h3>;
@@ -160,7 +140,6 @@ const Profile = () => {
 												<Button
 													className={`btn btn-rounded ${buttonState.background} text-white btn-block`}
 													onClick={() => handleButtonClick()}
-													// disabled={friends.includes(profile._id)}
 												>
 													{buttonState.text}
 												</Button>
@@ -168,7 +147,6 @@ const Profile = () => {
 													<Button
 														className={`btn btn-rounded bg-red text-white btn-block`}
 														onClick={rejectRequest}
-														// disabled={friends.includes(profile._id)}
 													>
 														Reject
 													</Button>
@@ -195,20 +173,9 @@ const Profile = () => {
 													`${profile.firstName} ${profile.lastName}`) ||
 												"No name"
 											}
-											// content={post.content}
 											renderContent={() => <EditablePostItem post={post} />}
 										/>
 									))}
-								{/* {user.posts.map((post) => (
-									<PostItem
-										title={
-											(profile && `${profile.firstName} ${profile.lastName}`) ||
-											"No name"
-										}
-										// content={post.content}
-										renderContent={() => <EditablePostItem post={post} />}
-									/>
-								))} */}
 							</>
 						) : null}
 					</>

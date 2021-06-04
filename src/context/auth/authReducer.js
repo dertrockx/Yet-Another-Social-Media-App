@@ -89,7 +89,7 @@ const reducer = (state, action) => {
 				closeOnClick: true,
 				progress: undefined,
 			});
-			console.log(action.payload);
+
 			return {
 				...state,
 				user: {
@@ -112,7 +112,6 @@ const reducer = (state, action) => {
 				closeOnClick: true,
 				progress: undefined,
 			});
-			console.log(action.payload);
 			return {
 				...state,
 				user: {
