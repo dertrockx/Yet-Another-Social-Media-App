@@ -64,7 +64,7 @@ const LoginPage = () => {
 				email: "",
 				password: "",
 			});
-			history.push("/feed");
+			history.push("/");
 		}
 	};
 	return (
