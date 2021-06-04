@@ -72,10 +72,12 @@ const AuthState = (props) => {
 			 *  }
 			 * }
 			 */
-			dispatch({
-				type: LOAD_USER,
-				payload: data.user,
-			});
+			if (data && data.isLoggedIn) {
+				dispatch({
+					type: LOAD_USER,
+					payload: data.user,
+				});
+			}
 		} catch (err) {
 			console.log(err);
 		}
