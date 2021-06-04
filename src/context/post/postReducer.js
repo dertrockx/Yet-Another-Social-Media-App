@@ -31,8 +31,10 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				posts: state.posts.map((post) => {
-					if (post._id === action.payload._id) return action.payload;
-					return post;
+					let data = post;
+					if (post._id === action.payload._id)
+						data.content = action.payload.content;
+					return data;
 				}),
 			};
 		case DELETE_POST:

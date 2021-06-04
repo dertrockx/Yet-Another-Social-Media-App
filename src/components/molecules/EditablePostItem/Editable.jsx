@@ -34,7 +34,10 @@ const Editable = ({ post }) => {
 			) : (
 				<Button
 					className="btn btn-rounded bg-green text-white btn-block"
-					onClick={() => editPost(post._id, data)}
+					onClick={() => {
+						editPost(post._id, data);
+						setEditing(false);
+					}}
 				>
 					Save
 				</Button>
