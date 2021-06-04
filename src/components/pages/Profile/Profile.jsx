@@ -58,6 +58,11 @@ const Profile = () => {
 			const data = await res.json();
 
 			const { users } = data;
+			console.log(users);
+			if (users.length === 0) {
+				setLoading(false);
+				return;
+			}
 			const profile = users[0];
 
 			// get friendship status
@@ -132,7 +137,7 @@ const Profile = () => {
 	return (
 		<Feed
 			renderMain={() => {
-				if (user)
+				if (profile)
 					return (
 						<PostItem
 							title={

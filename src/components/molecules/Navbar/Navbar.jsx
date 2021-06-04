@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import AuthContext from "../../../context/auth/authContext";
 import { NavLink, useHistory } from "react-router-dom";
@@ -8,6 +8,9 @@ import "./navbar.css";
 const Navbar = () => {
 	const authContext = useContext(AuthContext);
 	const history = useHistory();
+	// focus input handle
+	const [focused, setFocused] = useState(false);
+	const [query, setQuery] = useState("");
 	const {
 		isAuthenticated = false,
 		logout = () => {},
@@ -28,6 +31,13 @@ const Navbar = () => {
 		loadUser();
 		// eslint-disable-next-line
 	}, []);
+
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter" && focused && query !== "") {
+			// search user
+			history.push(`/profile/${query}`);
+		}
+	};
 	return (
 		<nav className="navbar">
 			<div className="left">
@@ -39,6 +49,16 @@ const Navbar = () => {
 			<div className="right">
 				{isAuthenticated ? (
 					<>
+						<div className="item">
+							<input
+								type="text"
+								value={query}
+								onChange={(e) => setQuery(e.target.value)}
+								onFocus={() => setFocused(true)}
+								onBlur={() => setFocused(false)}
+								onKeyDown={handleKeyDown}
+							/>
+						</div>
 						<NavLink className="item" activeClassName="is-active" to="/" exact>
 							Feed
 						</NavLink>
