@@ -22,7 +22,7 @@
 	margin-left: 10px;
 }
 
-.chirp-form textarea::placeholder {
+/* .chirp-form textarea::placeholder {
 	color: #666e75;
 }
 
@@ -35,7 +35,7 @@
 	width: 100%;
 	border: none;
 	margin-left: 10px;
-}
+} */
 
 .chirp-form input::placeholder {
 	color: #bbc8d4;

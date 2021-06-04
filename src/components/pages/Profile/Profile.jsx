@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
+
 import { Feed } from "../../templates";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../../context/auth";
 import PostItem from "../../molecules/PostItem";
 import Button from "../../atoms/Button";
+import EditablePostItem from "../../molecules/EditablePostItem";
 const url = process.env.REACT_APP_API_ROUTE;
 
 const getFriendshipStatus = (friends, recipient) => {
@@ -136,43 +138,69 @@ const Profile = () => {
 	if (loading) return <h3>Loading...</h3>;
 	return (
 		<Feed
-			renderMain={() => {
-				if (profile)
-					return (
-						<PostItem
-							title={
-								(profile && `${profile.firstName} ${profile.lastName}`) ||
-								"No name"
-							}
-							meta={(profile && profile.email) || "no email"}
-							renderContent={() => {
-								if (user && user.email !== email)
-									return (
-										<>
-											<Button
-												className={`btn btn-rounded ${buttonState.background} text-white btn-block`}
-												onClick={() => handleButtonClick()}
-												// disabled={friends.includes(profile._id)}
-											>
-												{buttonState.text}
-											</Button>
-											{friendship && friendship.status === 1 ? (
+			renderMain={
+				() => (
+					<>
+						{profile ? (
+							<PostItem
+								title={
+									(profile && `${profile.firstName} ${profile.lastName}`) ||
+									"No name"
+								}
+								meta={(profile && profile.email) || "no email"}
+								renderContent={() => {
+									if (user && user.email !== email)
+										return (
+											<>
 												<Button
-													className={`btn btn-rounded bg-red text-white btn-block`}
-													onClick={rejectRequest}
+													className={`btn btn-rounded ${buttonState.background} text-white btn-block`}
+													onClick={() => handleButtonClick()}
 													// disabled={friends.includes(profile._id)}
 												>
-													Reject
+													{buttonState.text}
 												</Button>
-											) : null}
-										</>
-									);
-								return null;
-							}}
-						/>
-					);
-				else return <PostItem title="No user found" />;
-			}}
+												{friendship && friendship.status === 1 ? (
+													<Button
+														className={`btn btn-rounded bg-red text-white btn-block`}
+														onClick={rejectRequest}
+														// disabled={friends.includes(profile._id)}
+													>
+														Reject
+													</Button>
+												) : null}
+											</>
+										);
+									return null;
+								}}
+							/>
+						) : (
+							<PostItem title="No user found" />
+						)}
+
+						{profile && user && user.email === email ? (
+							<>
+								<h3 className="mg-top-30">Posts</h3>
+								{user.posts.map((post) => (
+									<PostItem
+										title={
+											(profile && `${profile.firstName} ${profile.lastName}`) ||
+											"No name"
+										}
+										// content={post.content}
+										renderContent={() => (
+											<EditablePostItem content={post.content} />
+										)}
+									/>
+								))}
+							</>
+						) : null}
+					</>
+				)
+				// 	if (profile)
+				// 		return
+				// 	else return <PostItem title="No user found" />;
+				// }}
+			}
 		/>
 	);
 };

@@ -183,7 +183,17 @@ textarea {
 	border-radius: 10px;
 }
 
+textarea::placeholder {
+	color: #666e75;
+}
+
 textarea {
-	border: none;
+	resize: none;
+	font-family: "Mulish", sans-serif;
+
+	font-style: normal;
+	font-weight: normal;
 	width: 100%;
+	border: none;
+	margin-left: 10px;
 }
