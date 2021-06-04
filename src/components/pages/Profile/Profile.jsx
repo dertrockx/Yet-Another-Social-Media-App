@@ -105,6 +105,7 @@ const Profile = () => {
 			text,
 			background,
 		});
+		// eslint-disable-next-line
 	}, [user]);
 	const rejectRequest = () => {
 		console.log("Rejecting...");

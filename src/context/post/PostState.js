@@ -95,9 +95,6 @@ const PostState = (props) => {
 	};
 
 	const deletePost = async (id) => {
-		const headers = {
-			"Content-Type": "application/json",
-		};
 		try {
 			const res = await fetch(`${url}/posts/${id}`, {
 				method: "DELETE",

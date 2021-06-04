@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { Router } from "react-router";
 import { createBrowserHistory as createHistory } from "history";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import Navbar from "./components/molecules/Navbar";
 import Feed from "./components/pages/Feed";
 import SignUpPage from "./components/pages/SignUp";

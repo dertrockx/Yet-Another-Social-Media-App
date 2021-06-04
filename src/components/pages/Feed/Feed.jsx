@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import UserAvatar from "../../atoms/UserAvatar";
 import PostItem from "../../molecules/PostItem";
 import ChirpForm from "../../molecules/Chipform";
-import Button from "../../atoms/Button";
 import { Feed } from "../../templates";
 
 const Main = () => {
