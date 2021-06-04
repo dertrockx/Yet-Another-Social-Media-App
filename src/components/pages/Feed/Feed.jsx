@@ -46,8 +46,9 @@ const Main = () => {
 	const authContext = useContext(AuthContext);
 	const history = useHistory();
 	const { getPosts, posts } = postContext;
-	const { user } = authContext;
+	const { user, loadUser } = authContext;
 	useEffect(() => {
+		loadUser();
 		getPosts();
 		// eslint-disable-next-line
 	}, []);
@@ -62,14 +63,19 @@ const Main = () => {
 					<h2>Friends List</h2>
 					<div className="mg-top-30">
 						{user && user.friends && user.friends.length > 0 ? (
-							user.friends.map((friend, idx) => (
-								<UserAvatar
-									onClick={() => goToProfile(friend.email)}
-									key={idx}
-									title={`${friend.firstName} ${friend.lastName}`}
-									className="mg-top-20"
-								/>
-							))
+							user.friends.map((friendship, idx) => {
+								if (friendship.status === 2) {
+									return (
+										<UserAvatar
+											onClick={() => goToProfile(friendship.recipient.email)}
+											key={idx}
+											title={`${friendship.recipient.firstName} ${friendship.recipient.lastName}`}
+											className="mg-top-20"
+										/>
+									);
+								}
+								return null;
+							})
 						) : (
 							<p>No friends {"asdadsa"} sadge </p>
 						)}
@@ -102,15 +108,25 @@ const Main = () => {
 			)}
 			renderRightContent={() => (
 				<>
-					<h2>Promotions</h2>
-					{ads.map((ad, index) => (
-						<PostItem
-							key={index}
-							title={ad.name}
-							meta={ad.meta.toISOString()}
-							content={ad.content}
-						/>
-					))}
+					<h2>Pending Requests</h2>
+
+					{user && user.friends.length > 0 ? (
+						user.friends.map((friendship, idx) => {
+							if (friendship.status === 1)
+								return (
+									<PostItem
+										handleAvatarClick={() =>
+											goToProfile(friendship.requestor.email)
+										}
+										key={idx}
+										title={`${friendship.requestor.firstName} ${friendship.requestor.lastName}`}
+									/>
+								);
+							return null;
+						})
+					) : (
+						<p>No pending requests</p>
+					)}
 				</>
 			)}
 		/>
