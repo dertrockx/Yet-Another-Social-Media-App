@@ -1,20 +1,31 @@
-import React, { Component } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import UserAvatar from "../../atoms/UserAvatar";
 
-export default class PostItem extends Component {
-	constructor(props) {
-		super(props);
+const PostItem = ({
+	title,
+	meta,
+	hasLine,
+	content,
+	renderContent,
+	handleAvatarClick,
+}) => {
+	return (
+		<div className="post-item">
+			<UserAvatar title={title} meta={meta} onClick={handleAvatarClick} />
+			{hasLine ? <hr /> : null}
+			{renderContent ? renderContent() : <p>{content}</p>}
+		</div>
+	);
+};
 
-		this.state = {};
-	}
+PostItem.propTypes = {
+	title: PropTypes.string,
+	meta: PropTypes.string,
+	hasLine: PropTypes.bool,
+	content: PropTypes.string,
+	renderContent: PropTypes.func,
+	handleAvatarClick: PropTypes.func,
+};
 
-	render() {
-		return (
-			<div className="post-item">
-				<UserAvatar title={this.props.title} meta={this.props.meta} />
-				{this.props.hasLine ? <hr /> : null}
-				<p>{this.props.content}</p>
-			</div>
-		);
-	}
-}
+export default PostItem;
