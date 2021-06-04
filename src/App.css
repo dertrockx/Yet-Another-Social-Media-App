@@ -106,6 +106,18 @@ textarea {
 	background: #dae3ea;
 }
 
+.bg-yellow {
+	background: #ffd166;
+}
+
+.bg-blue {
+	background: #118ab2;
+}
+
+.bg-red {
+	background: #ef476f;
+}
+
 /**
  * util functions
  * */

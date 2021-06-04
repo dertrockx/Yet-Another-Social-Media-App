@@ -5,6 +5,7 @@ import {
 	LOGIN_ERROR,
 	LOGOUT,
 	LOAD_USER,
+	SEND_FRIEND_REQUEST,
 } from "../types";
 import { toast } from "react-toastify";
 import { cookie } from "../../utils/cookies";
@@ -63,6 +64,21 @@ const reducer = (state, action) => {
 				progress: undefined,
 			});
 			return state;
+		case SEND_FRIEND_REQUEST:
+			toast.success("😊 Friend request sent!", {
+				position: "bottom-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				progress: undefined,
+			});
+			return {
+				...state,
+				user: {
+					...state.user,
+					friends: [...state.user.friends, action.payload],
+				},
+			};
 		case LOAD_USER:
 			return {
 				...state,

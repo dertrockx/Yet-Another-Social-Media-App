@@ -10,6 +10,7 @@ import {
 	LOGIN_ERROR,
 	LOGOUT,
 	LOAD_USER,
+	SEND_FRIEND_REQUEST,
 } from "../types";
 const url = process.env.REACT_APP_API_ROUTE;
 
@@ -121,6 +122,36 @@ const AuthState = (props) => {
 			type: LOGOUT,
 		});
 
+	const sendFriendRequest = async (requestor, recipient) => {
+		const formData = {
+			requestor,
+			recipient,
+		};
+
+		try {
+			const res = await fetch(`${url}/friends/add`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(formData),
+				credentials: "include",
+			});
+			const data = await res.json();
+
+			if (data && data.success) {
+				console.log(data);
+				dispatch({
+					type: SEND_FRIEND_REQUEST,
+					payload: data.friendship,
+				});
+			}
+			return data.success;
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<AuthContext.Provider
 			value={{
@@ -129,6 +160,7 @@ const AuthState = (props) => {
 				login,
 				logout,
 				loadUser,
+				sendFriendRequest,
 			}}
 		>
 			{props.children}
