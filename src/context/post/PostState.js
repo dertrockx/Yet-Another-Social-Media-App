@@ -49,6 +49,7 @@ const PostState = (props) => {
 				method: "POST",
 				headers,
 				body: JSON.stringify(formData),
+				credentials: "include",
 			});
 			const data = await res.json();
 			console.log("Data: ", data);
