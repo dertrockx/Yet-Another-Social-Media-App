@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Feed } from "../../templates";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../../context/auth";
+
 import PostItem from "../../molecules/PostItem";
 import Button from "../../atoms/Button";
 import EditablePostItem from "../../molecules/EditablePostItem";
@@ -38,8 +39,10 @@ const getFriendshipObj = (friends, recipient) => {
 
 const Profile = () => {
 	const authContext = useContext(AuthContext);
+
 	const { user, sendFriendRequest, acceptFriendRequest, rejectFriendRequest } =
 		authContext;
+
 	const { friends } = user;
 
 	const { email } = useParams();
@@ -187,9 +190,7 @@ const Profile = () => {
 											"No name"
 										}
 										// content={post.content}
-										renderContent={() => (
-											<EditablePostItem content={post.content} />
-										)}
+										renderContent={() => <EditablePostItem post={post} />}
 									/>
 								))}
 							</>

@@ -62,12 +62,45 @@ const PostState = (props) => {
 		}
 	};
 
+	/**
+	 *
+	 * @param {*} id string
+	 * @param {*} content string
+	 */
+	const editPost = async (id, content) => {
+		const headers = {
+			"Content-Type": "application/json",
+		};
+		const formData = {
+			content,
+		};
+		try {
+			const res = await fetch(`${url}/posts/${id}`, {
+				method: "PATCH",
+				headers,
+				body: JSON.stringify(formData),
+				credentials: "include",
+			});
+			const data = await res.json();
+			console.log("Data: ", data);
+			if (data && data.success) {
+				dispatch({
+					type: UPDATE_POST,
+					payload: data.post,
+				});
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<PostContext.Provider
 			value={{
 				...state,
 				getPosts,
 				createPost,
+				editPost,
 			}}
 		>
 			{props.children}

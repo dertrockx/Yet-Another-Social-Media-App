@@ -1,13 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { PostContext } from "../../../context/post";
+
 import TextareaAutosize from "react-textarea-autosize";
 import Button from "../../atoms/Button";
 
-const Editable = ({ content, onSave, onDelete }) => {
+const Editable = ({ post }) => {
+	const [data, setData] = useState(post.content);
+	const postContext = useContext(PostContext);
+	const { editPost } = postContext;
 	const [editing, setEditing] = useState(false);
 	let ref = null;
 	return (
 		<>
-			<TextareaAutosize value={content} ref={(tag) => (ref = tag)} />
+			<div className="mg-top-30 mg-bottom-30">
+				<TextareaAutosize
+					value={data}
+					onChange={(e) => setData(e.target.value)}
+					ref={(tag) => (ref = tag)}
+					onFocus={() => setEditing(true)}
+				/>
+			</div>
 			{/* <p>{post.content}</p> */}
 			{!editing ? (
 				<Button
@@ -22,15 +34,12 @@ const Editable = ({ content, onSave, onDelete }) => {
 			) : (
 				<Button
 					className="btn btn-rounded bg-green text-white btn-block"
-					onClick={() => setEditing(false)}
+					onClick={() => editPost(post._id, data)}
 				>
 					Save
 				</Button>
 			)}
-			<Button
-				className="btn btn-rounded bg-red text-white btn-block"
-				onClick={onDelete}
-			>
+			<Button className="btn btn-rounded bg-red text-white btn-block">
 				Delete
 			</Button>
 		</>

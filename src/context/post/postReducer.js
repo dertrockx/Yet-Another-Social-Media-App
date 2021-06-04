@@ -21,6 +21,13 @@ const reducer = (state, action) => {
 				posts: [action.payload, ...state.posts],
 			};
 		case UPDATE_POST:
+			toast.success("😊 Post edited successfully!", {
+				position: "bottom-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				progress: undefined,
+			});
 			return {
 				...state,
 				posts: state.posts.map((post) => {
