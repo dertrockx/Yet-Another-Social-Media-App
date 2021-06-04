@@ -11,6 +11,7 @@ import {
 	LOGOUT,
 	LOAD_USER,
 	SEND_FRIEND_REQUEST,
+	ACCEPT_FRIEND_REQUEST,
 } from "../types";
 const url = process.env.REACT_APP_API_ROUTE;
 
@@ -152,6 +153,37 @@ const AuthState = (props) => {
 		}
 	};
 
+	const acceptFriendRequest = async (friendship_id, requestor, recipient) => {
+		const formData = {
+			requestor,
+			recipient,
+		};
+
+		try {
+			const res = await fetch(`${url}/friends/accept`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(formData),
+				credentials: "include",
+			});
+			const data = await res.json();
+
+			if (data && data.success) {
+				console.log(data);
+				dispatch({
+					type: ACCEPT_FRIEND_REQUEST,
+					payload: friendship_id,
+				});
+			}
+			// console.log(data);
+			// return data.success;
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<AuthContext.Provider
 			value={{
@@ -161,6 +193,7 @@ const AuthState = (props) => {
 				logout,
 				loadUser,
 				sendFriendRequest,
+				acceptFriendRequest,
 			}}
 		>
 			{props.children}

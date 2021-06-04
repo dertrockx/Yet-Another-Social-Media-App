@@ -6,6 +6,7 @@ import {
 	LOGOUT,
 	LOAD_USER,
 	SEND_FRIEND_REQUEST,
+	ACCEPT_FRIEND_REQUEST,
 } from "../types";
 import { toast } from "react-toastify";
 import { cookie } from "../../utils/cookies";
@@ -77,6 +78,29 @@ const reducer = (state, action) => {
 				user: {
 					...state.user,
 					friends: [...state.user.friends, action.payload],
+				},
+			};
+		case ACCEPT_FRIEND_REQUEST:
+			toast.success("😊 Friend request accepted", {
+				position: "bottom-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				progress: undefined,
+			});
+			console.log(action.payload);
+			return {
+				...state,
+				user: {
+					...state.user,
+					friends: state.user.friends.map((friendship) => {
+						let status = friendship.status;
+						if (friendship._id === action.payload) status = 2;
+						return {
+							...friendship,
+							status,
+						};
+					}),
 				},
 			};
 		case LOAD_USER:

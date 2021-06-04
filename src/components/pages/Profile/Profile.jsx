@@ -7,8 +7,11 @@ import Button from "../../atoms/Button";
 const url = process.env.REACT_APP_API_ROUTE;
 
 const getFriendshipStatus = (friends, recipient) => {
+	console.log(friends);
 	const friendship = friends.filter(
-		(friendship) => friendship.recipient._id === recipient
+		(friendship) =>
+			friendship.recipient._id === recipient ||
+			friendship.requestor._id === recipient
 	)[0];
 	if (!friendship) return ["Send a friend request", "bg-green"];
 	switch (friendship.status) {
@@ -22,9 +25,18 @@ const getFriendshipStatus = (friends, recipient) => {
 	}
 };
 
+const getFriendshipObj = (friends, recipient) => {
+	const friendship = friends.filter(
+		(friendship) =>
+			friendship.recipient._id === recipient ||
+			friendship.requestor._id === recipient
+	)[0];
+	return friendship;
+};
+
 const Profile = () => {
 	const authContext = useContext(AuthContext);
-	const { user, sendFriendRequest } = authContext;
+	const { user, sendFriendRequest, acceptFriendRequest } = authContext;
 	const { friends } = user;
 
 	const { email } = useParams();
@@ -49,6 +61,7 @@ const Profile = () => {
 			// get friendship status
 			const status = getFriendshipStatus(friends, profile._id);
 			const [text, background] = status;
+			console.log(text, background);
 
 			setButtonState({
 				text,
@@ -82,10 +95,19 @@ const Profile = () => {
 	const handleButtonClick = () => {
 		console.log("Em?");
 
-		if (buttonState.text !== "Send a friend request") return;
-		console.log("Sending friend request...");
-		const success = sendFriendRequest(user._id, profile._id);
-		console.log(success);
+		if (buttonState.text === "Send a friend request") {
+			console.log("Sending friend request...");
+			const success = sendFriendRequest(user._id, profile._id);
+			console.log(success);
+		} else if (buttonState.text === "Pending request") {
+			console.log("Accepting friend request");
+			acceptFriendRequest(
+				getFriendshipObj(friends, profile._id)._id,
+				profile._id,
+				user._id
+			);
+		}
+
 		// if (success) {
 		// 	const status = getFriendshipStatus(friends, profile._id);
 		// 	const [text, background] = status;

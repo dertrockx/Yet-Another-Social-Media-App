@@ -67,9 +67,9 @@ const Main = () => {
 								if (friendship.status === 2) {
 									return (
 										<UserAvatar
-											onClick={() => goToProfile(friendship.recipient.email)}
+											onClick={() => goToProfile(friendship.requestor.email)}
 											key={idx}
-											title={`${friendship.recipient.firstName} ${friendship.recipient.lastName}`}
+											title={`${friendship.requestor.firstName} ${friendship.requestor.lastName}`}
 											className="mg-top-20"
 										/>
 									);
